@@ -7,11 +7,8 @@ import withStyles from "@material-ui/core/styles/withStyles";
 //REDUX STUFF
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import {
-  getComment,
-  getComments,
-  clearErrors,
-} from "../../redux/actions/dataActions";
+
+import { getComment } from "../../redux/actions/commentActions";
 
 //GET TIME TIMESTAMP
 import dayjs from "dayjs";
@@ -182,7 +179,6 @@ class Comments extends Component {
 Comments.propTypes = {
   comments: PropTypes.array.isRequired,
   user: PropTypes.object.isRequired,
-  clearErrors: PropTypes.func.isRequired,
   comment: PropTypes.object.isRequired,
   getComment: PropTypes.func.isRequired,
 };
@@ -195,8 +191,6 @@ const mapStateToProps = (state) => ({
 
 const mapActionsToProps = {
   getComment,
-  getComments,
-  clearErrors,
 };
 
 export default connect(

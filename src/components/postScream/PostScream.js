@@ -2,19 +2,19 @@
 
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
-import withStyles from "@material-ui/core/styles/withStyles";
-import MyButton from "../../util/MyButton";
+import { isAndroid, isMobileOnly } from "react-device-detect";
+import _ from "lodash";
 
 // MUI Stuff
-import Button from "@material-ui/core/Button";
+import { MuiThemeProvider, NativeSelect } from "@material-ui/core";
+import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
-import DialogContent from "@material-ui/core/DialogContent";
-import Card from "@material-ui/core/Card";
+import withStyles from "@material-ui/core/styles/withStyles";
+import Slide from "@material-ui/core/Slide";
 
-//LOADERICON
-import CircularProgress from "@material-ui/core/CircularProgress";
-
+//Geocoder
+import Geocoder from "react-mapbox-gl-geocoder";
 import nominatim from "nominatim-geocode";
 import L from "leaflet";
 import "leaflet-control-geocoder/dist/Control.Geocoder.js";
@@ -26,22 +26,15 @@ import SignNote from "../profile/SignNote";
 import LocationOn from "@material-ui/icons/LocationOn";
 import AddIcon from "../../images/icons/plus_white.png";
 import Geolocate from "../../images/icons/geolocate.png";
-
-import CloseIcon from "@material-ui/icons/Close";
-
 import Arrow from "../../images/icons/arrow.png";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 // REDUX STUFF
 import { connect } from "react-redux";
-import { postScream, clearErrors } from "../../redux/actions/dataActions";
+import { postScream } from "../../redux/actions/screamActions";
+import { clearErrors } from "../../redux/actions/errorsActions";
+
 import { withRouter } from "react-router-dom";
-
-//GEOLOCATE
-
-//SEARCH
-import Geocoder from "react-mapbox-gl-geocoder";
-
-import _ from "lodash";
 
 import ReactMapGL, {
   Marker,
@@ -54,17 +47,11 @@ import Pin from "../../images/pin3.png";
 //IF COOKIES NOT ACCEPTED
 import Maploader from "../../images/map.png";
 
-import PostScreamRules from "../modals/PostScreamRules";
-
-import { isAndroid, isMobileOnly } from "react-device-detect";
-
-//ANIMATION
-import Slide from "@material-ui/core/Slide";
-
 //COOKIES
 import Cookies from "universal-cookie";
-import { MuiThemeProvider, NativeSelect } from "@material-ui/core";
-import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
+
+//Components
+import PostScreamRules from "../modals/PostScreamRules";
 import Weblink from "../modals/postModals/Weblink";
 import Contact from "../modals/postModals/Contact";
 import InlineDatePicker from "../modals/postModals/InlineDatePicker";
@@ -416,9 +403,6 @@ class PostScream extends Component {
     });
   };
 
-  handleOpenCookiePreferences() {
-    window.open("/cookieConfigurator", "_blank");
-  }
   handleCookies() {
     cookies.set("Cookie_settings", "all", {
       path: "/",
@@ -526,7 +510,7 @@ class PostScream extends Component {
       newScream.selectedUnix = this.state.selectedUnix;
     }
 
-    this.props.postScream(newScream, this.props.history);
+    this.props.postScream(newScream, this.props.user, this.props.history);
   };
 
   _onMarkerDragEnd = (event) => {

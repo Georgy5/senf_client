@@ -1,4 +1,5 @@
-
+/** @format */
+import React from "react";
 import List_grey from "../../images/icons/list_grey.png";
 import List_yellow from "../../images/icons/list_yellow.png";
 
@@ -8,18 +9,34 @@ import LampIcon_yellow from "../../images/icons/lampIcon_yellow.png";
 import Insights_yellow from "../../images/icons/insights_yellow.png";
 import Insights_grey from "../../images/icons/insights_grey.png";
 
+import { Translation } from "react-i18next";
+
 export const MenuData = [
-    {
-        isSelectedIcon: LampIcon_grey,
-        isNotSelectedIcon: LampIcon_yellow,
-        text: "Alle Ideen"
-    },{
-        isSelectedIcon: List_grey,
-        isNotSelectedIcon: List_yellow,
-        text: "Projekträume"
-    },{
-        isSelectedIcon: Insights_grey,
-        isNotSelectedIcon: Insights_yellow,
-        text: "Insights"
-    }
-]
+  {
+    isSelectedIcon: LampIcon_grey,
+    isNotSelectedIcon: LampIcon_yellow,
+    text: (
+      <Translation>
+        {(t, { i18n }) => <p>{t("menuData_allIdeas")}</p>}
+      </Translation>
+    ),
+  },
+  {
+    isSelectedIcon: List_grey,
+    isNotSelectedIcon: List_yellow,
+    text: (
+      <Translation>
+        {(t, { i18n }) => <p>{t("menuData_projectrooms")}</p>}
+      </Translation>
+    ),
+  },
+  {
+    isSelectedIcon: Insights_grey,
+    isNotSelectedIcon: Insights_yellow,
+    text: (
+      <Translation>
+        {(t, { i18n }) => <p>{t("menuData_insights")}</p>}
+      </Translation>
+    ),
+  },
+];

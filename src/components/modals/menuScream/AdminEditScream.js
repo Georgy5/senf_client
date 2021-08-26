@@ -18,10 +18,7 @@ import {
   TextField,
 } from "@material-ui/core";
 
-import {
-  adminEditScream,
-  getUserData,
-} from "../../../redux/actions/dataActions";
+import { editScream, getUserEmail } from "../../../redux/actions/screamActions";
 
 import L from "leaflet";
 
@@ -106,7 +103,7 @@ class AdminEditScream extends Component {
     notes: null,
   };
   handleOpen = () => {
-    this.props.getUserData(this.props.scream.userHandle);
+    this.props.getUserEmail(this.props.scream.userHandle);
 
     this.setState({
       open: true,
@@ -325,7 +322,7 @@ class AdminEditScream extends Component {
       editScream.selectedUnix = this.state.selectedUnix;
     }
 
-    this.props.adminEditScream(editScream, this.props.history);
+    this.props.editScream(editScream, this.props.history);
     // this.setState({ open: false });
     // window.location.reload(false);
   };
@@ -722,7 +719,7 @@ class AdminEditScream extends Component {
 
 AdminEditScream.propTypes = {
   classes: PropTypes.object.isRequired,
-  adminEditScream: PropTypes.func.isRequired,
+  editScream: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -731,7 +728,7 @@ const mapStateToProps = (state) => ({
   scream_user: state.data.scream_user,
 });
 
-const mapActionsToProps = { adminEditScream, getUserData };
+const mapActionsToProps = { editScream, getUserEmail };
 
 export default connect(
   mapStateToProps,

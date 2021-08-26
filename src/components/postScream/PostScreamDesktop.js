@@ -2,19 +2,15 @@
 
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
-import withStyles from "@material-ui/core/styles/withStyles";
-import MyButton from "../../util/MyButton";
+import { Translation } from "react-i18next";
 
 // MUI Stuff
-import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
-import DialogContent from "@material-ui/core/DialogContent";
-import Card from "@material-ui/core/Card";
+import withStyles from "@material-ui/core/styles/withStyles";
 
-//LOADERICON
-import CircularProgress from "@material-ui/core/CircularProgress";
-
+//Geocode
+import Geocoder from "react-mapbox-gl-geocoder";
 import nominatim from "nominatim-geocode";
 import L from "leaflet";
 import "leaflet-control-geocoder/dist/Control.Geocoder.js";
@@ -25,21 +21,17 @@ import SignNote from "../profile/SignNote";
 //ICONS
 import LocationOn from "@material-ui/icons/LocationOn";
 import AddIcon from "../../images/icons/plus_white.png";
-import Geolocate from "../../images/icons/geolocate.png";
-
-import CloseIcon from "@material-ui/icons/Close";
-
 import Arrow from "../../images/icons/arrow.png";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 // REDUX STUFF
 import { connect } from "react-redux";
-import { postScream, clearErrors } from "../../redux/actions/dataActions";
+import { postScream } from "../../redux/actions/screamActions";
+import { clearErrors } from "../../redux/actions/errorsActions";
+
 import { withRouter } from "react-router-dom";
 
 import _ from "lodash";
-
-//SEARCH
-import Geocoder from "react-mapbox-gl-geocoder";
 
 import ReactMapGL, {
   Marker,
@@ -436,9 +428,6 @@ class PostScream extends Component {
     });
   };
 
-  handleOpenCookiePreferences() {
-    window.open("/cookieConfigurator", "_blank");
-  }
   handleCookies() {
     cookies.set("Cookie_settings", "all", {
       path: "/",
@@ -551,7 +540,7 @@ class PostScream extends Component {
       newScream.selectedUnix = this.state.selectedUnix;
     }
 
-    this.props.postScream(newScream, this.props.history);
+    this.props.postScream(newScream, this.props.user, this.props.history);
   };
 
   _onMarkerDragEndDesktop = (newViewport) => {
@@ -1110,7 +1099,12 @@ class PostScream extends Component {
           className={openInfoPageDesktop ? "add add_hide" : "add"}
         >
           <img src={AddIcon} width="25" alt="AddIcon" />
-          <span className="addText">Neue Idee</span>
+          <span className="addText">
+            {" "}
+            <Translation>
+              {(t, { i18n }) => <p>{t("postScream_newIdea")}</p>}
+            </Translation>
+          </span>
         </button>
 
         <Dialog

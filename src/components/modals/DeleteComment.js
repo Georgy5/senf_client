@@ -11,8 +11,7 @@ import Dialog from "@material-ui/core/Dialog";
 
 //REDUX STUFF
 import { connect } from "react-redux";
-import { clearErrors } from "../../redux/actions/dataActions";
-import { deleteComment } from "../../redux/actions/dataActions";
+import { deleteComment } from "../../redux/actions/commentActions";
 
 const styles = {
   deleteButton: {
@@ -66,7 +65,11 @@ class DeleteComment extends Component {
     this.setState({ open: false });
   };
   deleteComment = () => {
-    this.props.deleteComment(this.props.commentId);
+    this.props.deleteComment(
+      this.props.commentId,
+      this.props.user,
+      this.props.scream.screamId
+    );
     this.setState({ open: false });
   };
   render() {
@@ -116,7 +119,6 @@ const mapStateToProps = (state) => ({
 
 const mapActionsToProps = {
   deleteComment,
-  clearErrors,
 };
 
 export default connect(

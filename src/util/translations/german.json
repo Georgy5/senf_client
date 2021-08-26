@@ -1,0 +1,76 @@
+{
+  "rotate_tablet": "Bitte rotiere dein Tablet",
+  "rotate_phone": "Bitte rotiere dein Smartphone",
+
+  "contact": "Kontakt",
+  "imprint": "Impressum",
+  "dataPrivacy": "Datenschutz",
+  "termsAndConditions": "AGB",
+  "accept": "Akzeptieren",
+  "next": "Weiter",
+  "showIdeas": "Ideen anzeigen",
+  "withoutLocation": "Ohne Ortsangabe",
+  "withoutLocationShort": "Ohne Ort",
+  "confirmLocation": "Ort bestätigen",
+
+  "newest": "neuste",
+  "hottest": "schärfste",
+  "ideas": "Ideen",
+  "comments": "Kommentare",
+  "votes": "Votes",
+  "info": "Infos",
+  "calendar": "Kalender",
+
+  "register": "Registrieren",
+  "login": "Anmelden",
+  "profile": "Profil",
+
+  "alreadyMember":"Bereits Mitglied?",
+  "notYetMember":"noch kein Mitglied?",
+  "password":"Passwort mit mind. 8 Zeichen",
+  "confirmPassword":"Passwort bestätigen",
+  "username":"Nutzername",
+  "birthyear":"Jahrgang",
+  "gender":"Geschlecht",
+
+  "menuData_allIdeas": "Alle Ideen",
+  "menuData_projectrooms": "Projekträume",
+  "menuData_insights": "Insights",
+
+  "topics_care": "Versorgung",
+  "topics_traffic": "Traffic",
+  "topics_ecoAndGreen": "Umwelt und Grün",
+  "topics_bike": "Rad",
+  "topics_inclusionAndSocial": "Inklusion / Soziales",
+  "topics_sportsAndLeisure": "Sport / Freizeit",
+  "topics_other": "Sonstige",
+
+  "map_filterIdeas": "Ideen im Kartenbereich in der Liste anzeigen",
+
+  "postScream_newIdea": "Neue Idee",
+
+
+  "projectrooms_description": "Gemeinsam mit Organisationen und Initiativen suchen wir zu spezifischen Themen/ Orten eure Ideen. In den jeweiligen Projekträumen könnt ihr die Ideen ansehen, kommentieren & neue eintragen!",
+  "projectrooms_request_overTitle": "Für Organisation/Initiativen",
+  "projectrooms_request_title": "Projektraum anfragen!",
+  "projectrooms_request_subTitle": "Ihr möchtet zu einem spezifischen Thema/ Ort Ideen sammeln?",
+
+
+
+  "cookiebanner_title": "Ohne Cookies geht's nicht.",
+  "cookiebanner_text": "Für die Bereitstellung einiger Funktionen und die Verbesserung dieses Services brauchen wir Cookies. Falls du wirklich nur die technisch notwendigsten Cookies akzeptieren willst, klicke <2> hier</2> oder konfiguriere deine <5>Cookie-Einstellungen</5> .",
+
+  "infopage_block1_title": "Du hast Ideen für\ndein Kölner Veedel?",
+  "infopage_block1_subtitle": "Hier kannst du deine Ideen teilen und die der anderen sehen; in den Dialog treten und für Ideen, die dir gefallen stimmen!",
+  "infopage_block2_title": "Eure Stimmen können\nlaut werden!",
+  "infopage_block2_subtitle": "Sowohl den Stadtvertreter:innen als auch euch wollen wir hier Bürger-Know-How vermitteln. Lasst die Stadt Köln eure Ideen hören!",
+  "infopage_block3_title": "Du willst das Projekt\nunterstützen?",
+  "infopage_block3_subtitle": "Wir konnten bereits tolle Kooperationen eingehen. Wenn auch dich unsere Denkweise anspricht, lass uns quatschen!",
+  "infopage_illustrator": "Illustratorin: Gizem Güvendag"
+
+
+
+
+
+
+}

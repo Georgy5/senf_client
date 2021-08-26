@@ -11,7 +11,6 @@ import Dialog from "@material-ui/core/Dialog";
 
 // REDUX Stuff
 import { connect } from "react-redux";
-import { deleteScream } from "../../redux/actions/dataActions";
 
 const styles = {
   deleteButton: {
@@ -112,12 +111,4 @@ class ReportScream extends Component {
   }
 }
 
-ReportScream.propTypes = {
-  deleteScream: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired,
-  screamId: PropTypes.string.isRequired,
-};
-
-export default connect(null, { deleteScream })(
-  withStyles(styles)(ReportScream)
-);
+export default withStyles(styles)(ReportScream);

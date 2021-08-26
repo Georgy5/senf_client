@@ -6,19 +6,19 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import {
   getScreams,
-  getallComments,
-  getallLikes,
-  getProjects,
   closeScream,
-  openScreamFirstTime,
+  openScream,
+} from "../redux/actions/screamActions";
+import {
+  getProjects,
   openProject,
   closeProject,
-} from "../redux/actions/dataActions";
+} from "../redux/actions/projectActions";
 
 import { isMobileOnly } from "react-device-detect";
 
-import { clearErrors } from "../redux/actions/dataActions";
 import { logoutUser } from "../redux/actions/userActions";
+import { clearErrors } from "../redux/actions/errorsActions";
 
 //ICONS
 import lamploader from "../images/lamp.png";
@@ -26,8 +26,8 @@ import PostScream from "../components/postScream/PostScream";
 
 import Appbar from "../components/layout/Appbar";
 
-import { InsightsPage } from "../mainComponents/Insights/InsightsPage";
-import { DesktopSidebar } from "../components/layout/DesktopSidebar";
+import InsightsPage from "../mainComponents/Insights/InsightsPage";
+import DesktopSidebar from "../components/layout/DesktopSidebar";
 
 import Cookies from "universal-cookie";
 import Topbar from "../components/layout/Topbar";
@@ -36,6 +36,7 @@ import { AllIdeasPage } from "../mainComponents/Ideas/AllIdeasPage";
 import { ProjectsPage } from "../mainComponents/Projects/ProjectsPage";
 import ScreamDialog from "../components/scream/ScreamDialog";
 import ProjectDialog from "../mainComponents/Projects/projectComponents/ProjectDialog";
+
 const cookies = new Cookies();
 
 const styles = {};
@@ -122,7 +123,7 @@ export class home extends Component {
       if (screamId.indexOf("_") > 0) {
         this.props.openProject(screamId);
       } else {
-        this.props.openScreamFirstTime(screamId);
+        this.props.openScream(screamId);
       }
       this.setState({ screamIdParam: screamId });
 
@@ -228,9 +229,6 @@ export class home extends Component {
         left: 0,
         behavior: "smooth",
       });
-
-      this.props.getallComments();
-      this.props.getallLikes();
     }
   };
 
@@ -462,6 +460,17 @@ export class home extends Component {
   };
 
   zoomToBounds = (centerLat, centerLong, zoom) => {
+    // if (this.props.geoData !== undefined && this.props.geoData !== "") {
+    //   var bbox = require("geojson-bbox");
+    //   var feature = {
+    //     type: "Feature",
+    //     geometry: {
+    //       type: "LineString",
+    //       coordinates: JSON.parse(this.props.geoData),
+    //     },
+    //   };
+    //   var extent = bbox(feature);
+
     this.setState({
       viewport: {
         latitude: centerLat,
@@ -537,7 +546,7 @@ export class home extends Component {
       if (screamId.indexOf("_") > 0) {
         this.props.openProject(screamId);
       } else {
-        this.props.openScreamFirstTime(screamId);
+        this.props.openScream(screamId);
       }
       this.setState({ screamIdParam: screamId });
     }
@@ -546,8 +555,8 @@ export class home extends Component {
     }
   };
 
-  handleCookiesDesktop = () => {
-    cookies.set("Cookie_settings", "all", {
+  handleCookies = (cookie_settings) => {
+    cookies.set("Cookie_settings", cookie_settings, {
       path: "/",
       maxAge: 60 * 60 * 24 * 90,
       sameSite: "none",
@@ -556,19 +565,15 @@ export class home extends Component {
     this.setState({ cookiesSetDesktop: true });
   };
 
-  handleMinimumCookies = () => {
-    cookies.set("Cookie_settings", "minimum", {
-      path: "/",
-      maxAge: 60 * 60 * 24 * 90,
-      sameSite: "none",
-      secure: true,
-    });
-    this.setState({ cookiesSetDesktop: true });
-  };
-
-  handleOpenCookiePreferences() {
-    window.open("/cookieConfigurator", "_blank");
-  }
+  // handleMinimumCookies = () => {
+  //   cookies.set("Cookie_settings", "minimum", {
+  //     path: "/",
+  //     maxAge: 60 * 60 * 24 * 90,
+  //     sameSite: "none",
+  //     secure: true,
+  //   });
+  //   this.setState({ cookiesSetDesktop: true });
+  // };
 
   noLocation = () => {
     this.setState({
@@ -990,8 +995,7 @@ export class home extends Component {
           handleOpenInfoPageDesktop={this.handleOpenInfoPageDesktop}
           handleCloseInfoPageDesktop={this.handleCloseInfoPageDesktop}
           cookiesSetDesktop={this.state.cookiesSetDesktop}
-          handleCookiesDesktop={this.handleCookiesDesktop}
-          handleMinimumCookies={this.handleMinimumCookies}
+          handleCookies={this.handleCookies}
           deleteAccount={this.deleteAccount}
           handleLogout={this.handleLogout}
           openInfoPageDesktop={this.state.openInfoPageDesktop}
@@ -1221,15 +1225,13 @@ home.propTypes = {
   getScreams: PropTypes.func.isRequired,
   logoutUser: PropTypes.func.isRequired,
 
-  getallComments: PropTypes.func.isRequired,
-  getallLikes: PropTypes.func.isRequired,
   openDialog: PropTypes.bool,
 
   getProjects: PropTypes.func.isRequired,
   UI: PropTypes.object.isRequired,
 
   closeScream: PropTypes.func.isRequired,
-  openScreamFirstTime: PropTypes.func.isRequired,
+  openScream: PropTypes.func.isRequired,
   openProject: PropTypes.func.isRequired,
   closeProject: PropTypes.func.isRequired,
 };
@@ -1237,15 +1239,10 @@ home.propTypes = {
 const mapActionsToProps = {
   logoutUser,
   getScreams,
-
-  getallComments,
-  getallLikes,
-
   clearErrors,
-
   getProjects,
   closeScream,
-  openScreamFirstTime,
+  openScream,
   openProject,
   closeProject,
 };

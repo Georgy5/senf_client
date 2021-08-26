@@ -66,7 +66,7 @@ const styles = {
   },
 };
 
-const ThemenDialog = ({ classes }) => {
+const ThemenDialog = ({ classes, screams }) => {
   const [open, setOpen] = useState(false);
 
   const dialogComponent = isMobileOnly ? (
@@ -89,7 +89,7 @@ const ThemenDialog = ({ classes }) => {
       </MyButton>
 
       <DialogContent>
-        <Thema />
+        <Thema screams={screams} />
         {/* <br />
         <Trends /> */}
       </DialogContent>
@@ -114,7 +114,7 @@ const ThemenDialog = ({ classes }) => {
       </MyButton>
 
       <DialogContent>
-        <Thema />
+        <Thema screams={screams} />
         {/* <br />
         <Trends /> */}
       </DialogContent>

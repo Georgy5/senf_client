@@ -8,7 +8,7 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 // Redux stuff
 import { connect } from "react-redux";
-import { submitComment } from "../../redux/actions/dataActions";
+import { submitComment } from "../../redux/actions/commentActions";
 import LikeButton from "./LikeButton";
 
 const styles = {
@@ -63,8 +63,13 @@ class CommentForm extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
   handleSubmit = (event) => {
+    console.log(this.props);
     event.preventDefault();
-    this.props.submitComment(this.props.screamId, { body: this.state.body });
+    this.props.submitComment(
+      this.props.screamId,
+      { body: this.state.body },
+      this.props.user
+    );
     this.setState({
       loading: true,
     });
@@ -131,6 +136,7 @@ CommentForm.propTypes = {
 const mapStateToProps = (state) => ({
   UI: state.UI,
   authenticated: state.user.authenticated,
+  user: state.user,
 });
 
 export default connect(mapStateToProps, { submitComment })(

@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 
 // Redux
 import { connect } from "react-redux";
-import { openProject } from "../../../redux/actions/dataActions";
+import { openProject } from "../../../redux/actions/projectActions";
 
 import "./ProjectCards.css";
 

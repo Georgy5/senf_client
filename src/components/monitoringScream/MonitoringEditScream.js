@@ -17,11 +17,8 @@ import {
   TextField,
 } from "@material-ui/core";
 
-import {
-  adminEditScream,
-  getUserData,
-  closeMonitoringScream,
-} from "../../redux/actions/dataActions";
+import { editScream, getUserEmail } from "../../redux/actions/screamActions";
+import { closeMonitoringScream } from "../../redux/actions/monitoringScreamActions";
 
 import L from "leaflet";
 
@@ -114,9 +111,12 @@ class MonitoringEditScream extends Component {
     notes: null,
   };
 
-  componentWillReceiveProps() {
+  componentDidMount() {
     this.handleOpen();
   }
+  // componentWillReceiveProps() {
+  //   this.handleOpen();
+  // }
   // componentDidCatch(prevProps, nextProps, snapshot) {
   //   alert("hi");
   //   // if (
@@ -128,7 +128,7 @@ class MonitoringEditScream extends Component {
   // }
 
   handleOpen = () => {
-    this.props.getUserData(this.props.scream.userHandle);
+    this.props.getUserEmail(this.props.scream.userHandle);
 
     this.setState({
       open: true,
@@ -180,6 +180,8 @@ class MonitoringEditScream extends Component {
         selectedUnix: this.props.scream.selectedUnix,
       });
     }
+
+    console.log(this.props.data);
   };
   handleClose = () => {
     this.props.closeMonitoringScream();
@@ -345,7 +347,7 @@ class MonitoringEditScream extends Component {
       editScream.selectedUnix = this.state.selectedUnix;
     }
 
-    // this.props.adminEditScream(editScream, this.props.history);
+    // this.props.editScream(editScream, this.props.history);
   };
 
   handleClick = (tab) => {
@@ -779,15 +781,17 @@ class MonitoringEditScream extends Component {
                   }}
                 >
                   Email:
-                  <a
-                    href={"mailto:" + this.props.data.scream_user.email}
-                    style={{
-                      fontFamily: "Futura PT W01 Book",
-                      textDecoration: "underline",
-                    }}
-                  >
-                    {this.props.data.scream_user.email}
-                  </a>
+                  {this.props.data.scream_user && (
+                    <a
+                      href={"mailto:" + this.props.data.scream_user.email}
+                      style={{
+                        fontFamily: "Futura PT W01 Book",
+                        textDecoration: "underline",
+                      }}
+                    >
+                      {this.props.data.scream_user.email}
+                    </a>
+                  )}
                 </div>{" "}
                 <div
                   style={{
@@ -876,7 +880,7 @@ class MonitoringEditScream extends Component {
 
 MonitoringEditScream.propTypes = {
   classes: PropTypes.object.isRequired,
-  adminEditScream: PropTypes.func.isRequired,
+  editScream: PropTypes.func.isRequired,
   UI: PropTypes.object.isRequired,
 };
 
@@ -889,8 +893,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapActionsToProps = {
-  adminEditScream,
-  getUserData,
+  editScream,
+  getUserEmail,
   closeMonitoringScream,
 };
 

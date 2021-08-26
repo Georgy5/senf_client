@@ -18,7 +18,7 @@ import {
   TextField,
 } from "@material-ui/core";
 
-import { editScream } from "../../../redux/actions/dataActions";
+import { editScream } from "../../../redux/actions/screamActions";
 
 import _ from "lodash";
 

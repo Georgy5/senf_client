@@ -2,14 +2,12 @@
 
 import React, { Component, Fragment } from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
-import MyButton from "../../util/MyButton";
 
 // MUI Stuff
 import Dialog from "@material-ui/core/Dialog";
 
 // Redux stuff
 import { connect } from "react-redux";
-import { clearErrors } from "../../redux/actions/dataActions";
 import { Link } from "react-router-dom";
 
 //LazyLoad
@@ -24,6 +22,8 @@ import Mountain from "../../images/bigbubblenew.png";
 
 //LOADER
 import CircularProgress from "@material-ui/core/CircularProgress";
+
+import { useTranslation, Trans } from "react-i18next";
 
 //ICON TO OPEN THE INFOMENU
 import Info from "../../images/icons/info.png";
@@ -119,200 +119,179 @@ const styles = {
   },
 };
 
-class InlineInformationPage extends Component {
-  render() {
-    const {
-      classes,
-      openInfoPageDesktop,
-      cookiesSetDesktop,
-      handleOpenInfoPageDesktop,
-      handleCloseInfoPageDesktop,
-      handleCookiesDesktop,
-      handleOpenCookiePreferences,
-      handleMinimumCookies,
-      loading,
-    } = this.props;
+const InlineInformationPageDesktop = ({
+  classes,
+  openInfoPageDesktop,
+  cookiesSetDesktop,
+  handleOpenInfoPageDesktop,
+  handleCloseInfoPageDesktop,
+  handleCookies,
+  loading,
+}) => {
+  const { t } = useTranslation();
 
-    const dialogComponent =
-      !loading && !cookiesSetDesktop ? (
-        <Dialog
-          scroll={"paper"}
-          open={openInfoPageDesktop}
-          onClose={this.handleClose}
-          className="dialogOverlayContent"
-          aria-labelledby="scroll-dialog-title"
-          aria-describedby="scroll-dialog-description"
-          maxWidth={"sm"}
-          PaperProps={{
-            style: { borderRadius: "20px" },
-          }}
-        >
-          <DialogContent style={{ height: "200px" }}>
-            <div className="cookiesText">
-              {" "}
-              <span className="cookiesHeader">Ohne Cookies geht's nicht.</span>
-              <br />
+  const dialogComponent =
+    !loading && !cookiesSetDesktop ? (
+      <Dialog
+        scroll={"paper"}
+        open={openInfoPageDesktop}
+        onClose={handleCloseInfoPageDesktop}
+        className="dialogOverlayContent"
+        aria-labelledby="scroll-dialog-title"
+        aria-describedby="scroll-dialog-description"
+        maxWidth={"sm"}
+        PaperProps={{
+          style: { borderRadius: "20px" },
+        }}
+      >
+        <DialogContent style={{ height: "200px" }}>
+          <div className="cookiesText">
+            {" "}
+            <span className="cookiesHeader">{t("cookiebanner_title")}</span>
+            <br />
+            <Trans i18nKey="cookiebanner_text">
               Für die Bereitstellung einiger Funktionen und die Verbesserung
               dieses Services brauchen wir Cookies. Falls du wirklich nur die
               technisch notwendigsten Cookies akzeptieren willst, klicke{" "}
-              <span className="Terms" onClick={handleMinimumCookies}>
+              <span className="Terms" onClick={() => handleCookies("minimum")}>
                 hier
               </span>
               &nbsp;oder konfiguriere deine{" "}
-              <span className="Terms" onClick={handleOpenCookiePreferences}>
+              <span
+                className="Terms"
+                onClick={() => {
+                  window.open("/cookieConfigurator", "_blank");
+                }}
+              >
                 Cookie-Einstellungen
               </span>
               .
+            </Trans>
+          </div>
+
+          <button
+            className="buttonWide buttonCookiesDesktop"
+            onClick={() => handleCookies("all")}
+          >
+            {t("accept")}
+          </button>
+        </DialogContent>
+      </Dialog>
+    ) : !loading ? (
+      <Dialog
+        scroll={"paper"}
+        open={openInfoPageDesktop}
+        onClose={handleCloseInfoPageDesktop}
+        className="dialogOverlayContent"
+        TransitionComponent={Transition}
+        aria-labelledby="scroll-dialog-title"
+        aria-describedby="scroll-dialog-description"
+        maxWidth={"lg"}
+        PaperProps={{
+          style: {
+            borderRadius: "20px",
+            width: "1000px",
+            height: "900px",
+            maxHeight: "calc(100vh - 80px)",
+            overflowX: "hidden",
+          },
+        }}
+      >
+        <button
+          onClick={handleCloseInfoPageDesktop}
+          className="buttonRound buttonClose"
+          style={{ position: "fixed" }}
+        >
+          <CloseIcon />
+        </button>
+
+        <DialogContent style={{}}>
+          <img className="Gib" src={Headline} width="100px"></img>
+
+          <LazyImage
+            src={FirstImage}
+            className="FirstImage"
+            alt="Person_Senftube"
+            placeholder={({ imageProps, ref }) => (
+              <img
+                ref={ref}
+                src={FirstImageBad}
+                className="FirstImage"
+                alt="Person_Senftube"
+              />
+            )}
+            actual={({ imageProps }) => (
+              <img {...imageProps} alt="Person_Senftube" />
+            )}
+          />
+          <div className="SVGweb" alt="TopPath">
+            <img src={Mountain} className="Mountain" alt="Mountain" />
+
+            <div>
+              <span className="title1Web">{t("infopage_block1_title")}</span>
+              <span className="subTitle1Web">
+                {t("infopage_block1_subtitle")}
+              </span>
             </div>
+            <span className="title2Web">{t("infopage_block2_title")}</span>
+            <span className="subTitle2Web">
+              {t("infopage_block2_subtitle")}
+            </span>
+            <span className="title3Web">{t("infopage_block3_title")}</span>
+            <span className="subTitle3Web">
+              {t("infopage_block3_subtitle")}
+            </span>
 
             <button
-              className="buttonWide buttonCookiesDesktop"
-              onClick={handleCookiesDesktop}
+              className="buttonWide buttonInlineInfoIdeas"
+              onClick={handleCloseInfoPageDesktop}
             >
-              Akzeptieren
+              {t("showIdeas")}
             </button>
-          </DialogContent>
-        </Dialog>
-      ) : !loading ? (
-        <Dialog
-          scroll={"paper"}
-          open={openInfoPageDesktop}
-          onClose={this.handleClose}
-          className="dialogOverlayContent"
-          TransitionComponent={Transition}
-          aria-labelledby="scroll-dialog-title"
-          aria-describedby="scroll-dialog-description"
-          maxWidth={"lg"}
-          PaperProps={{
-            style: {
-              borderRadius: "20px",
-              width: "1000px",
-              height: "900px",
-              maxHeight: "calc(100vh - 80px)",
-              overflowX: "hidden",
-            },
-          }}
-        >
-          <button
-            onClick={handleCloseInfoPageDesktop}
-            className="buttonRound buttonClose"
-            style={{ position: "fixed" }}
-          >
-            <CloseIcon />
-          </button>
 
-          <DialogContent style={{}}>
-            <img className="Gib" src={Headline} width="100px"></img>
-
-            <LazyImage
-              src={FirstImage}
-              className="FirstImage"
-              alt="Person_Senftube"
-              placeholder={({ imageProps, ref }) => (
-                <img
-                  ref={ref}
-                  src={FirstImageBad}
-                  className="FirstImage"
-                  alt="Person_Senftube"
-                />
-              )}
-              actual={({ imageProps }) => (
-                <img {...imageProps} alt="Person_Senftube" />
-              )}
-            />
-            <div className="SVGweb" alt="TopPath">
-              <img src={Mountain} className="Mountain" alt="Mountain" />
-
-              <div>
-                <span className="title1Web">
-                  Du hast Ideen für <br /> dein Kölner Veedel?
-                </span>
-
-                <span className="subTitle1Web">
-                  Hier kannst du deine Ideen teilen und die der anderen sehen;
-                  in den Dialog treten und für Ideen, die dir gefallen stimmen!
-                </span>
-              </div>
-              <span className="title2Web">
-                Eure Stimmen können <br /> laut werden!
-              </span>
-              <span className="subTitle2Web">
-                Sowohl den Stadtvertreter:innen als auch euch wollen wir hier
-                Bürger-Know-How vermitteln. Lasst die Stadt Köln eure Ideen
-                hören!
-              </span>
-              <span className="title3Web">
-                Du willst das Projekt <br /> unterstützen?
-              </span>
-              <span className="subTitle3Web">
-                Wir konnten bereits tolle Kooperationen eingehen. Wenn auch dich
-                unsere Denkweise anspricht, lass uns quatschen!
-              </span>
-
-              <button
-                className="buttonWide buttonInlineInfoIdeas"
-                onClick={handleCloseInfoPageDesktop}
-              >
-                Ideen anzeigen
+            <a href="mailto:dein@senf.koeln">
+              <button className="buttonWide buttonInlineInfoContact">
+                {t("contact")}
               </button>
+            </a>
 
-              <a href="mailto:dein@senf.koeln">
-                <button className="buttonWide buttonInlineInfoContact">
-                  Kontakt
-                </button>
-              </a>
-
-              <span className="footer">
-                <Link to="/impressum">
-                  <span className="impressum"> Impressum </span>
-                </Link>
-                <Link to="/datenschutz">
-                  <span className="datenschutz"> | Datenschutz | </span>
-                </Link>
-                <Link to="/agb">
-                  <span className="agb"> AGB </span>
-                </Link>
-              </span>
-              <span className="footercopy">
-                Illustrationen: Gizem Güvenda&#287;
-              </span>
-            </div>
-          </DialogContent>
-        </Dialog>
-      ) : (
-        <div className="white">
-          <div className="spinnerDiv">
-            <CircularProgress size={50} thickness={2} />
-            {/* <img src={lamploader} className="lamploader" alt="LikeIcon" /> */}
+            <span className="footer">
+              <Link to="/impressum">
+                <span className="impressum"> {t("imprint")}</span>
+              </Link>
+              <Link to="/datenschutz">
+                <span className="datenschutz"> | {t("dataPrivacy")} | </span>
+              </Link>
+              <Link to="/agb">
+                <span className="agb"> {t("termsAndConditions")} </span>
+              </Link>
+            </span>
+            <span className="footercopy">{t("infopage_illustrator")}</span>
           </div>
+        </DialogContent>
+      </Dialog>
+    ) : (
+      <div className="white">
+        <div className="spinnerDiv">
+          <CircularProgress size={50} thickness={2} />
+          {/* <img src={lamploader} className="lamploader" alt="LikeIcon" /> */}
         </div>
-      );
-
-    return (
-      <Fragment>
-        <div onClick={handleOpenInfoPageDesktop}>
-          <div className="inlineInfoIcon">
-            <img src={Info} width="35" alt="EndImage" />
-
-            <span className="inlineInfoIconText">Infos</span>
-          </div>
-        </div>
-
-        {dialogComponent}
-      </Fragment>
+      </div>
     );
-  }
-}
 
-const mapActionsToProps = {
-  clearErrors,
+  return (
+    <Fragment>
+      <div onClick={handleOpenInfoPageDesktop}>
+        <div className="inlineInfoIcon">
+          <img src={Info} width="35" alt="EndImage" />
+
+          <span className="inlineInfoIconText">Infos</span>
+        </div>
+      </div>
+
+      {dialogComponent}
+    </Fragment>
+  );
 };
 
-const mapStateToProps = (state) => ({
-  UI: state.UI,
-});
-
-export default connect(
-  mapStateToProps,
-  mapActionsToProps
-)(withStyles(styles)(InlineInformationPage));
+export default withStyles(styles)(InlineInformationPageDesktop);

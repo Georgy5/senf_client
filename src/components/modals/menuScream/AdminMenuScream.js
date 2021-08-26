@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { Component, Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import PropTypes from "prop-types";
 import MyButton from "../../../util/MyButton";
@@ -10,8 +10,10 @@ import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 
 //REDUX STUFF
-import { connect } from "react-redux";
-import { deleteScream } from "../../../redux/actions/dataActions";
+import { deleteScream } from "../../../redux/actions/screamActions";
+import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router";
+
 import AdminEditScream from "./AdminEditScream";
 
 const styles = {
@@ -55,36 +57,30 @@ const styles = {
   },
 };
 
-class AdminMenuScream extends Component {
-  state = {
-    open: false,
-  };
-  handleOpen = () => {
-    this.setState({ open: true });
-  };
-  handleClose = () => {
-    this.setState({ open: false });
-  };
-  deleteScream = () => {
+const AdminMenuScream = ({
+  classes,
+  screamId,
+  scream,
+  userHandle,
+  isAdmin,
+  isModerator,
+}) => {
+  const [open, setOpen] = useState();
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state);
+  const history = useHistory();
+
+  const handleDeleteScream = () => {
     var answer = window.confirm(
       "Bist du sicher, dass du die Idee löschen möchtest?"
     );
     if (answer) {
-      this.props.deleteScream(this.props.screamId, this.props.history);
-
-      //some code
-    } else {
-      //some code
+      dispatch(deleteScream(screamId, user, history));
     }
-
-    // this.setState({ open: false });
-    // window.location.reload(false);
   };
 
-  reportScream = () => {
-    const userHandle = this.props.userHandle;
-    const screamId = this.props.screamId;
-    const thisPath = `/users/${userHandle}/scream/${screamId}`;
+  const reportScream = () => {
+    const thisPath = `/${screamId}`;
     const siteLink = "senf.koeln" + thisPath;
 
     var link =
@@ -101,54 +97,50 @@ class AdminMenuScream extends Component {
     window.location.href = link;
   };
 
-  render() {
-    const { classes, scream, isAdmin, isModerator } = this.props;
+  const options = isAdmin ? (
+    <>
+      <AdminEditScream scream={scream} isAdmin={true}></AdminEditScream>
 
-    const options = isAdmin ? (
-      <>
-        <AdminEditScream scream={scream} isAdmin={true}></AdminEditScream>
+      <Button className={classes.confirmButton} onClick={reportScream}>
+        Idee melden
+      </Button>
 
-        <Button className={classes.confirmButton} onClick={this.reportScream}>
-          Idee melden
+      <Button className={classes.confirmButton} onClick={handleDeleteScream}>
+        Idee löschen
+      </Button>
+    </>
+  ) : isModerator ? (
+    <>
+      <AdminEditScream scream={scream} isAdmin={false}></AdminEditScream>
+
+      <Button className={classes.confirmButton} onClick={reportScream}>
+        Idee melden
+      </Button>
+    </>
+  ) : null;
+  return (
+    <Fragment>
+      <MyButton
+        tip="Delete Scream"
+        onClick={() => setOpen(true)}
+        btnClassName={classes.deleteButton}
+      ></MyButton>
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        width="md"
+        BackdropProps={{ classes: { root: classes.root } }}
+        PaperProps={{ classes: { root: classes.paper } }}
+      >
+        {options}
+        <div className={classes.line} />
+        <Button className={classes.cancelButton} onClick={() => setOpen(false)}>
+          Abbrechen
         </Button>
-
-        <Button className={classes.confirmButton} onClick={this.deleteScream}>
-          Idee löschen
-        </Button>
-      </>
-    ) : isModerator ? (
-      <>
-        <AdminEditScream scream={scream} isAdmin={false}></AdminEditScream>
-
-        <Button className={classes.confirmButton} onClick={this.reportScream}>
-          Idee melden
-        </Button>
-      </>
-    ) : null;
-    return (
-      <Fragment>
-        <MyButton
-          tip="Delete Scream"
-          onClick={this.handleOpen}
-          btnClassName={classes.deleteButton}
-        ></MyButton>
-        <Dialog
-          open={this.state.open}
-          onClose={this.handleClose}
-          width="md"
-          BackdropProps={{ classes: { root: classes.root } }}
-          PaperProps={{ classes: { root: classes.paper } }}
-        >
-          {options}
-          <div className={classes.line} />
-          <Button className={classes.cancelButton} onClick={this.handleClose}>
-            Abbrechen
-          </Button>
-        </Dialog>
-      </Fragment>
-    );
-  }
-}
+      </Dialog>
+    </Fragment>
+  );
+};
 
 AdminMenuScream.propTypes = {
   deleteScream: PropTypes.func.isRequired,
@@ -156,6 +148,4 @@ AdminMenuScream.propTypes = {
   screamId: PropTypes.string.isRequired,
 };
 
-export default connect(null, { deleteScream })(
-  withStyles(styles)(AdminMenuScream)
-);
+export default withStyles(styles)(AdminMenuScream);

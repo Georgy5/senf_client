@@ -20,12 +20,9 @@ import "mapbox-gl/dist/mapbox-gl.css";
 
 // Redux stuff
 import { connect } from "react-redux";
-import {
-  clearErrors,
-  getProjectScreams,
-  closeScream,
-  closeProject,
-} from "../../../redux/actions/dataActions";
+import { closeScream } from "../../../redux/actions/screamActions";
+import { closeProject } from "../../../redux/actions/projectActions";
+import { clearErrors } from "../../../redux/actions/errorsActions";
 
 //ANIMATION
 import Slide from "@material-ui/core/Slide";
@@ -1041,7 +1038,6 @@ class ProjectDialog extends Component {
 
 ProjectDialog.propTypes = {
   clearErrors: PropTypes.func.isRequired,
-  getProjectScreams: PropTypes.func.isRequired,
   closeScream: PropTypes.func.isRequired,
   openProject: PropTypes.func.isRequired,
   closeProject: PropTypes.func.isRequired,
@@ -1056,7 +1052,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapActionsToProps = {
-  getProjectScreams,
   clearErrors,
   closeScream,
   closeProject,

@@ -23,11 +23,9 @@ import ChatBorder from "../../images/icons/chat.png";
 // Redux
 import { connect } from "react-redux";
 
-import {
-  clearErrors,
-  openScream,
-  openProject,
-} from "../../redux/actions/dataActions";
+import { openScream } from "../../redux/actions/screamActions";
+
+import { openProject } from "../../redux/actions/projectActions";
 
 const styles = {
   gradient: {
@@ -155,7 +153,7 @@ class Scream extends Component {
     cardHeight: {},
   };
 
-  pushScreamId = (screamId) => {
+  fetchDataScream = (screamId) => {
     this.props.openScream(screamId);
   };
 
@@ -308,7 +306,7 @@ class Scream extends Component {
           <br />
           {projectTitle}
           <button
-            onClick={() => this.pushScreamId(screamId)}
+            onClick={() => this.fetchDataScream(screamId)}
             className="buttonExpand ripple"
           ></button>
           {/* <ScreamDialog
@@ -339,7 +337,6 @@ const mapStateToProps = (state) => ({
 const mapActionsToProps = {
   openScream,
   openProject,
-  clearErrors,
 };
 
 export default connect(

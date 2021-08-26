@@ -1,248 +1,250 @@
 /** @format */
 
-import React, { Component } from "react";
+// /** @format */
 
-import withStyles from "@material-ui/core/styles/withStyles";
+// import React, { Component } from "react";
 
-import { Link } from "react-router-dom";
-import Button from "@material-ui/core/Button";
+// import withStyles from "@material-ui/core/styles/withStyles";
 
-import QR from "../../images/frame.png";
+// import { Link } from "react-router-dom";
+// import Button from "@material-ui/core/Button";
 
-//LazyLoad
-import { LazyImage } from "react-lazy-images";
+// import QR from "../../images/frame.png";
 
-//IMAGES BAD QUALITY
-import FirstImageBad from "../../images/bigbubblemanbad.png";
+// //LazyLoad
+// import { LazyImage } from "react-lazy-images";
 
-//IMAGES
-import FirstImage from "../../images/bigbubbleman.png";
-import Mountain from "../../images/bigbubblenew.png";
+// //IMAGES BAD QUALITY
+// import FirstImageBad from "../../images/bigbubblemanbad.png";
 
-//LOADER
-import CircularProgress from "@material-ui/core/CircularProgress";
-import lamploader from "../../images/lamp.png";
+// //IMAGES
+// import FirstImage from "../../images/bigbubbleman.png";
+// import Mountain from "../../images/bigbubblenew.png";
 
-import Headline from "../../images/headline.png";
-import Logo from "../../images/logo.png";
+// //LOADER
+// import CircularProgress from "@material-ui/core/CircularProgress";
+// import lamploader from "../../images/lamp.png";
 
-import { connect } from "react-redux";
+// import Headline from "../../images/headline.png";
+// import Logo from "../../images/logo.png";
 
-//CHECK IF MOBILE
-import { isMobileOnly } from "react-device-detect";
+// import { connect } from "react-redux";
 
-//COOKIES
-import Cookies from "universal-cookie";
-const cookies = new Cookies();
+// //CHECK IF MOBILE
+// import { isMobileOnly } from "react-device-detect";
 
-const styles = {
-  KontaktButton: {
-    position: "fixed",
-    zIndex: 999,
-    width: "7em",
-    right: "5vw",
-    top: "2vw",
-    borderRadius: "100px",
-    color: "#414345",
-    boxShadow: "0 8px 40px -12px rgba(0,0,0,0)",
-    backgroundColor: "white",
-    textTransform: "none",
-    fontSize: "15pt",
-    border: " solid 1px #414345",
-  },
+// //COOKIES
+// import Cookies from "universal-cookie";
+// const cookies = new Cookies();
 
-  black: {
-    color: "black",
-  },
-};
+// const styles = {
+//   KontaktButton: {
+//     position: "fixed",
+//     zIndex: 999,
+//     width: "7em",
+//     right: "5vw",
+//     top: "2vw",
+//     borderRadius: "100px",
+//     color: "#414345",
+//     boxShadow: "0 8px 40px -12px rgba(0,0,0,0)",
+//     backgroundColor: "white",
+//     textTransform: "none",
+//     fontSize: "15pt",
+//     border: " solid 1px #414345",
+//   },
 
-export class info extends Component {
-  componentDidMount() {
-    if (isMobileOnly) {
-      this.props.history.push("/");
-    }
-    if (!isMobileOnly) {
-      this.props.history.push("/");
-    }
-  }
+//   black: {
+//     color: "black",
+//   },
+// };
 
-  state = {
-    open: true,
-  };
-  handleOpen = () => {
-    this.setState({ open: true });
-  };
+// export class info extends Component {
+//   componentDidMount() {
+//     if (isMobileOnly) {
+//       this.props.history.push("/");
+//     }
+//     if (!isMobileOnly) {
+//       this.props.history.push("/");
+//     }
+//   }
 
-  handleOpenCookiePreferences() {
-    window.open("/cookieConfigurator", "_blank");
-  }
+//   state = {
+//     open: true,
+//   };
+//   handleOpen = () => {
+//     this.setState({ open: true });
+//   };
 
-  handleMinimumCookies() {
-    cookies.set("Cookie_settings", "minimum", {
-      path: "/",
-      maxAge: 60 * 60 * 24 * 90,
+//   handleOpenCookiePreferences() {
+//     window.open("/cookieConfigurator", "_blank");
+//   }
 
-      sameSite: "none",
-      secure: true,
-    });
-    this.setState({ open: false });
-  }
+//   handleMinimumCookies() {
+//     cookies.set("Cookie_settings", "minimum", {
+//       path: "/",
+//       maxAge: 60 * 60 * 24 * 90,
 
-  handleCookies() {
-    cookies.set("Cookie_settings", "all", {
-      path: "/",
-      maxAge: 60 * 60 * 24 * 90,
-      sameSite: "none",
-      secure: true,
-    });
-    this.setState({ open: false });
-  }
-  handleClose = () => {
-    this.setState({ open: false });
-  };
+//       sameSite: "none",
+//       secure: true,
+//     });
+//     this.setState({ open: false });
+//   }
 
-  render() {
-    const { loading } = this.props.data;
-    const { classes } = this.props;
+//   handleCookies() {
+//     cookies.set("Cookie_settings", "all", {
+//       path: "/",
+//       maxAge: 60 * 60 * 24 * 90,
+//       sameSite: "none",
+//       secure: true,
+//     });
+//     this.setState({ open: false });
+//   }
+//   handleClose = () => {
+//     this.setState({ open: false });
+//   };
 
-    window.onbeforeunload = function () {
-      window.scrollTo(0, 0);
-    };
+//   render() {
+//     const { loading } = this.props.data;
+//     const { classes } = this.props;
 
-    window.onload = function () {
-      window.scrollTo(0, 0);
-    };
+//     window.onbeforeunload = function () {
+//       window.scrollTo(0, 0);
+//     };
 
-    const cookiebanner =
-      !loading && cookies.get("Cookie_settings") !== "all" ? (
-        <div>
-          <div className="cookiesText">
-            {" "}
-            <span className="cookiesHeader">Ohne Cookies geht's nicht.</span>
-            <br />
-            Für die Bereitstellung einiger Funktionen und die Verbesserung
-            dieses Services brauchen wir Cookies. Wenn du fortfährst stimmst du
-            der Verwendung von technisch notwendigen Cookies zu.&nbsp;
-            <span
-              className="Terms"
-              onClick={() => this.handleOpenCookiePreferences()}
-            >
-              Hier
-            </span>
-            &nbsp;kannst du deine Cookie-Einstellungen konfigurieren.
-          </div>
+//     window.onload = function () {
+//       window.scrollTo(0, 0);
+//     };
 
-          <div className="AcceptBanner" onClick={() => this.handleCookies()}>
-            Akzeptieren
-          </div>
-        </div>
-      ) : null;
+//     const cookiebanner =
+//       !loading && cookies.get("Cookie_settings") !== "all" ? (
+//         <div>
+//           <div className="cookiesText">
+//             {" "}
+//             <span className="cookiesHeader">Ohne Cookies geht's nicht.</span>
+//             <br />
+//             Für die Bereitstellung einiger Funktionen und die Verbesserung
+//             dieses Services brauchen wir Cookies. Wenn du fortfährst stimmst du
+//             der Verwendung von technisch notwendigen Cookies zu.&nbsp;
+//             <span
+//               className="Terms"
+//               onClick={() => this.handleOpenCookiePreferences()}
+//             >
+//               Hier
+//             </span>
+//             &nbsp;kannst du deine Cookie-Einstellungen konfigurieren.
+//           </div>
 
-    const start = !loading ? (
-      <div>
-        {cookiebanner}
-        <h1 className="logoWeb">
-          {" "}
-          <img src={Logo} width="100px"></img>
-        </h1>
-        <img className="Gib" src={Headline} width="100px"></img>
-        {/* <span className="Gib">Gib deinen Senf dazu!</span>{" "} */}
-        <div className="FadeAnimationSlow">
-          <span className="infotext">
-            Öffne <span className={classes.black}>Senf.koeln</span> <br /> auf
-            deinem Smartphone, <br />
-            um mitzumachen!
-          </span>
+//           <div className="AcceptBanner" onClick={() => this.handleCookies()}>
+//             Akzeptieren
+//           </div>
+//         </div>
+//       ) : null;
 
-          <a href="mailto:dein@senf.koeln">
-            <Button variant="contained" className={classes.KontaktButton}>
-              Kontakt
-            </Button>
-          </a>
+//     const start = !loading ? (
+//       <div>
+//         {cookiebanner}
+//         <h1 className="logoWeb">
+//           {" "}
+//           <img src={Logo} width="100px"></img>
+//         </h1>
+//         <img className="Gib" src={Headline} width="100px"></img>
+//         {/* <span className="Gib">Gib deinen Senf dazu!</span>{" "} */}
+//         <div className="FadeAnimationSlow">
+//           <span className="infotext">
+//             Öffne <span className={classes.black}>Senf.koeln</span> <br /> auf
+//             deinem Smartphone, <br />
+//             um mitzumachen!
+//           </span>
 
-          <div className="ipadbackground" />
-          <div className="QRWrapper">
-            <img src={QR} className="QR" alt="TopPath" />
+//           <a href="mailto:dein@senf.koeln">
+//             <Button variant="contained" className={classes.KontaktButton}>
+//               Kontakt
+//             </Button>
+//           </a>
 
-            <span className="QRtext">
-              Scanne den QR-Code mit deiner Smartphone-Kamera-App
-            </span>
-          </div>
+//           <div className="ipadbackground" />
+//           <div className="QRWrapper">
+//             <img src={QR} className="QR" alt="TopPath" />
 
-          <span className="footerWeb">
-            <Link to="/impressum">
-              <span className="impressumWeb"> Impressum </span>
-            </Link>
+//             <span className="QRtext">
+//               Scanne den QR-Code mit deiner Smartphone-Kamera-App
+//             </span>
+//           </div>
 
-            <Link to="/datenschutz">
-              <span className="datenschutzWeb">| Datenschutz | </span>
-            </Link>
-            <Link to="/agb">
-              <span className="AGBWeb"> AGB </span>
-            </Link>
-          </span>
-          <span className="footercopyWeb">
-            Illustrationen: Gizem Güvenda&#287;
-          </span>
-        </div>
-        <LazyImage
-          src={FirstImage}
-          className="FirstImage"
-          alt="Person_Senftube"
-          placeholder={({ imageProps, ref }) => (
-            <img
-              ref={ref}
-              src={FirstImageBad}
-              className="FirstImage"
-              alt="Person_Senftube"
-            />
-          )}
-          actual={({ imageProps }) => (
-            <img {...imageProps} alt="Person_Senftube" />
-          )}
-        />
-        <div className="SVGweb" alt="TopPath">
-          <img src={Mountain} className="Mountain" alt="Mountain" />
+//           <span className="footerWeb">
+//             <Link to="/impressum">
+//               <span className="impressumWeb"> Impressum </span>
+//             </Link>
 
-          <div>
-            <span className="title1Web">
-              Du hast Ideen für <br /> dein Kölner Veedel?
-            </span>
+//             <Link to="/datenschutz">
+//               <span className="datenschutzWeb">| Datenschutz | </span>
+//             </Link>
+//             <Link to="/agb">
+//               <span className="AGBWeb"> AGB </span>
+//             </Link>
+//           </span>
+//           <span className="footercopyWeb">
+//             Illustrationen: Gizem Güvenda&#287;
+//           </span>
+//         </div>
+//         <LazyImage
+//           src={FirstImage}
+//           className="FirstImage"
+//           alt="Person_Senftube"
+//           placeholder={({ imageProps, ref }) => (
+//             <img
+//               ref={ref}
+//               src={FirstImageBad}
+//               className="FirstImage"
+//               alt="Person_Senftube"
+//             />
+//           )}
+//           actual={({ imageProps }) => (
+//             <img {...imageProps} alt="Person_Senftube" />
+//           )}
+//         />
+//         <div className="SVGweb" alt="TopPath">
+//           <img src={Mountain} className="Mountain" alt="Mountain" />
 
-            <span className="subTitle1Web">
-              Hier kannst du deine Ideen teilen und die der anderen sehen; in
-              den Dialog treten und für Ideen, die dir gefallen stimmen!
-            </span>
-          </div>
-          <span className="title2Web">Eure Stimmen können laut werden!</span>
-          <span className="subTitle2Web">
-            Sowohl den Stadtvertreter:innen als auch euch wollen wir hier
-            Bürger-Know-How vermitteln. Lasst die Stadt Köln eure Ideen hören!
-          </span>
-          <span className="title3Web">
-            Du willst das Projekt <br /> unterstützen?
-          </span>
-          <span className="subTitle3Web">
-            Lass uns quatschen! Wir können jegliche Unterstützung gebrauchen.
-            Und jegliches Feedback!
-          </span>
-        </div>
-      </div>
-    ) : (
-      <div className="white">
-        <div className="spinnerDiv">
-          <CircularProgress size={50} thickness={2} />
-          {/* <img src={lamploader} className="lamploader" alt="LikeIcon" /> */}
-        </div>
-      </div>
-    );
+//           <div>
+//             <span className="title1Web">
+//               Du hast Ideen für <br /> dein Kölner Veedel?
+//             </span>
 
-    return <div>{start}</div>;
-  }
-}
+//             <span className="subTitle1Web">
+//               Hier kannst du deine Ideen teilen und die der anderen sehen; in
+//               den Dialog treten und für Ideen, die dir gefallen stimmen!
+//             </span>
+//           </div>
+//           <span className="title2Web">Eure Stimmen können laut werden!</span>
+//           <span className="subTitle2Web">
+//             Sowohl den Stadtvertreter:innen als auch euch wollen wir hier
+//             Bürger-Know-How vermitteln. Lasst die Stadt Köln eure Ideen hören!
+//           </span>
+//           <span className="title3Web">
+//             Du willst das Projekt <br /> unterstützen?
+//           </span>
+//           <span className="subTitle3Web">
+//             Lass uns quatschen! Wir können jegliche Unterstützung gebrauchen.
+//             Und jegliches Feedback!
+//           </span>
+//         </div>
+//       </div>
+//     ) : (
+//       <div className="white">
+//         <div className="spinnerDiv">
+//           <CircularProgress size={50} thickness={2} />
+//           {/* <img src={lamploader} className="lamploader" alt="LikeIcon" /> */}
+//         </div>
+//       </div>
+//     );
 
-const mapStateToProps = (state) => ({
-  data: state.data,
-});
+//     return <div>{start}</div>;
+//   }
+// }
 
-export default connect(mapStateToProps)(withStyles(styles)(info));
+// const mapStateToProps = (state) => ({
+//   data: state.data,
+// });
+
+// export default connect(mapStateToProps)(withStyles(styles)(info));

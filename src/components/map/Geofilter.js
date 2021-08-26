@@ -8,7 +8,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import { connect } from "react-redux";
 import { editUserDetails } from "../../redux/actions/userActions";
 
-import { openScream } from "../../redux/actions/dataActions";
+import { openScream } from "../../redux/actions/screamActions";
 
 // Icons
 import Arrow from "../../images/icons/arrow.png";
@@ -184,9 +184,8 @@ class Geofilter extends Component {
     }
   }
 
-  pushScreamId = (screamId, lat, long) => {
-    const coordinates = lat + "#" + long;
-    this.props.openScream(screamId, coordinates);
+  fetchDataScream = (screamId) => {
+    this.props.openScream(screamId);
   };
 
   // handleChange = (event) => {
@@ -247,9 +246,7 @@ class Geofilter extends Component {
       geoData,
     } = this.props;
 
-    const {
-      classes
-    } = this.props;
+    const { classes } = this.props;
 
     const data =
       !loadingProjects && geoData !== undefined && geoData !== ""
@@ -288,7 +285,6 @@ class Geofilter extends Component {
     // }
 
     let screamLenghth = dataFinal.length;
-
 
     // const closeicon =
     //   (latitude1 < 50.95) |
@@ -471,9 +467,7 @@ class Geofilter extends Component {
                 }
           }
           mapStyle={styles[this.state.styleId]}
-          accessToken={
-            process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
-          }
+          accessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
           minZoom={9}
           {...viewport}
           zoom={openGeofilter ? viewport.zoom : viewport.zoom - 2.5}
@@ -578,13 +572,7 @@ class Geofilter extends Component {
                     }}
                   >
                     <button
-                      onClick={() =>
-                        this.pushScreamId(
-                          element.screamId,
-                          element.lat,
-                          element.long
-                        )
-                      }
+                      onClick={() => this.fetchDataScream(element.screamId)}
                       className="buttonExpand ripple"
                     ></button>
                   </div>

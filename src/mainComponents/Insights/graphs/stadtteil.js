@@ -299,7 +299,7 @@ export class Stadtteil extends Component {
   };
   render() {
     const { classes } = this.props;
-    const { screams } = this.props.data;
+    const { screams } = this.props;
 
     const SonstigeLegende = [];
     const SonstiigedataArray = screams;

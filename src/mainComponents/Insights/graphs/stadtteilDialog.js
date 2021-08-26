@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { Component, Fragment } from "react";
+import React, { useState, Fragment } from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import MyButton from "../../../util/MyButton";
 // MUI Stuff
@@ -9,9 +9,6 @@ import DialogContent from "@material-ui/core/DialogContent";
 
 // Icons
 import CloseIcon from "@material-ui/icons/Close";
-
-// Redux stuff
-import { connect } from "react-redux";
 
 //ANIMATION
 import Slide from "@material-ui/core/Slide";
@@ -125,88 +122,67 @@ const styles = {
   },
 };
 
-class StadtteilDialog extends Component {
-  state = {
-    open: false,
+const StadtteilDialog = ({ classes, screams }) => {
+  const [open, setOpen] = useState("");
 
-    oldPath: "",
-    newPath: "",
-    path: "",
-  };
-
-  handleOpen = () => {
-    this.setState({ open: true });
-  };
-  handleClose = () => {
-    this.setState({ open: false });
-  };
-
-  render() {
-    const { classes } = this.props;
-
-    const dialogComponent = isMobileOnly ? (
-      <Dialog
-        scroll={"body"}
-        open={this.state.open}
-        onClose={this.handleClose}
-        className="dialogOverlayContent"
-        BackdropProps={{ classes: { root: classes.root } }}
-        PaperProps={{ classes: { root: classes.paper } }}
-        maxWidth={"lg"}
-        TransitionComponent={Transition}
-        fullScreen
+  const dialogComponent = isMobileOnly ? (
+    <Dialog
+      scroll={"body"}
+      open={open}
+      onClose={() => setOpen(false)}
+      className="dialogOverlayContent"
+      BackdropProps={{ classes: { root: classes.root } }}
+      PaperProps={{ classes: { root: classes.paper } }}
+      maxWidth={"lg"}
+      TransitionComponent={Transition}
+      fullScreen
+    >
+      <MyButton
+        onClick={() => setOpen(false)}
+        btnClassName={classes.closeButton}
       >
-        <MyButton onClick={this.handleClose} btnClassName={classes.closeButton}>
-          <CloseIcon />
-        </MyButton>
+        <CloseIcon />
+      </MyButton>
 
-        <DialogContent>
-          <Stadtteil data={this.props.data} classes={this.props.classes} />
-        </DialogContent>
-      </Dialog>
-    ) : (
-      <Dialog
-        scroll={"body"}
-        open={this.state.open}
-        onClose={this.handleClose}
-        className="dialogOverlayContent"
-        BackdropProps={{ classes: { root: classes.root } }}
-        PaperProps={{ classes: { root: classes.paperWeb } }}
-        maxWidth={"lg"}
-        TransitionComponent={Transition}
-        fullScreen
+      <DialogContent>
+        <Stadtteil classes={classes} screams={screams} />
+      </DialogContent>
+    </Dialog>
+  ) : (
+    <Dialog
+      scroll={"body"}
+      open={open}
+      onClose={() => setOpen(false)}
+      className="dialogOverlayContent"
+      BackdropProps={{ classes: { root: classes.root } }}
+      PaperProps={{ classes: { root: classes.paperWeb } }}
+      maxWidth={"lg"}
+      TransitionComponent={Transition}
+      fullScreen
+    >
+      <MyButton
+        onClick={() => setOpen(false)}
+        btnClassName={classes.closeButton}
       >
-        <MyButton onClick={this.handleClose} btnClassName={classes.closeButton}>
-          <CloseIcon />
-        </MyButton>
+        <CloseIcon />
+      </MyButton>
 
-        <DialogContent>
-          <Stadtteil data={this.props.data} classes={this.props.classes} />
-        </DialogContent>
-      </Dialog>
-    );
+      <DialogContent>
+        <Stadtteil classes={classes} screams={screams} />
+      </DialogContent>
+    </Dialog>
+  );
 
-    return (
-      <Fragment>
-        <MyButton
-          onClick={this.handleOpen}
-          btnClassName={classes.expandButton}
-        ></MyButton>
+  return (
+    <Fragment>
+      <MyButton
+        onClick={() => setOpen(true)}
+        btnClassName={classes.expandButton}
+      ></MyButton>
 
-        {dialogComponent}
-      </Fragment>
-    );
-  }
-}
+      {dialogComponent}
+    </Fragment>
+  );
+};
 
-const mapStateToProps = (state) => ({
-  UI: state.UI,
-  data: state.data,
-});
-
-const mapActionsToProps = {};
-
-export default connect(
-  mapStateToProps,
-  mapActionsToProps
-)(withStyles(styles)(StadtteilDialog));
+export default withStyles(styles)(StadtteilDialog);

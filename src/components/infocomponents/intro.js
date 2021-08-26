@@ -1,23 +1,28 @@
 /** @format */
 
-import React, { Component } from "react";
-import withStyles from "@material-ui/core/styles/withStyles";
+import React, { useEffect } from "react";
+import { useHistory } from "react-router";
 
-import { LazyImage } from "react-lazy-images";
-//IMAGE
+//Translation
+import { Trans, useTranslation } from "react-i18next";
+
+//Images
 import FirstImage from "../../images/cityperson.png";
 import FirstImageBad from "../../images/citypersonBad.png";
+import { LazyImage } from "react-lazy-images";
 
-//LOADER
-import lamploader from "../../images/lamp_yellow.png";
+//MUI STuff
+import withStyles from "@material-ui/core/styles/withStyles";
 
 //REDUX
+import { setCookies } from "../../redux/actions/cookiesActions";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { connect } from "react-redux";
 
 //CHECK DEVICE
 import { isMobileOnly } from "react-device-detect";
 
+//Cookies
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
@@ -28,6 +33,7 @@ const styles = {
     height: "100vh",
     position: "fixed",
   },
+
   PlattformButton2: {
     position: "fixed",
     zIndex: 99,
@@ -53,57 +59,76 @@ const styles = {
   },
 };
 
-export class intro extends Component {
-  constructor(props) {
-    super(props);
+const Intro = ({ classes }) => {
+  const { t } = useTranslation();
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const { cookie_settings } = useSelector((state) => state.data);
 
+  useEffect(() => {
     if (!isMobileOnly) {
-      this.props.history.push("/");
+      history.push("/");
     }
-  }
+  }, []);
 
-  state = {
-    open: true,
-  };
-  handleOpen = () => {
-    this.setState({ open: true });
-  };
-
-  handleOpenCookiePreferences() {
+  const handleOpenCookiePreferences = () => {
     window.open("/cookieConfigurator", "_blank");
-  }
+  };
 
-  handleMinimumCookies() {
-    cookies.set("Cookie_settings", "minimum", {
-      path: "/",
-      maxAge: 60 * 60 * 24 * 90,
-      secure: true,
-      sameSite: "none",
-    });
-    this.setState({ open: false });
-  }
+  const handleCookies = (cookie_settings) => {
+    dispatch(setCookies(cookie_settings));
+  };
 
-  handleCookies() {
-    cookies.set("Cookie_settings", "all", {
-      path: "/",
-      maxAge: 60 * 60 * 24 * 90,
-      secure: true,
-      sameSite: "none",
-    });
-    this.setState({ open: false });
-  }
-  render() {
-    const { loading } = this.props.data;
-    const { classes } = this.props;
+  const name = "person";
 
-    const content = !loading ? (
+  const cookiebanner =
+    cookies.get("Cookie_settings") !== "all" &&
+    cookies.get("Cookie_settings") !== "minimum" ? (
+      <div>
+        <div className="cookiesText">
+          {" "}
+          <span className="cookiesHeader">{t("cookiebanner_title")}</span>
+          <br />
+          <Trans i18nKey="cookiebanner_text">
+            Für die Bereitstellung einiger Funktionen und die Verbesserung
+            dieses Services brauchen wir Cookies. Falls du wirklich nur die
+            technisch notwendigsten Cookies akzeptieren willst, klicke{" "}
+            <span className="Terms" onClick={() => handleCookies("minimum")}>
+              hier
+            </span>
+            &nbsp;oder konfiguriere deine{" "}
+            <span className="Terms" onClick={handleOpenCookiePreferences}>
+              Cookie-Einstellungen
+            </span>
+            .
+          </Trans>
+        </div>
+        <button
+          className="buttonWide AcceptIntro"
+          onClick={() => handleCookies("all")}
+        >
+          {t("accept")}
+        </button>
+        <span className="footerIntro">
+          <Link to="/impressum" className="footerIntroText">
+            <span className="impressumIntro"> {t("imprint")} </span>
+          </Link>
+          <Link to="/datenschutz" className="footerIntroText">
+            <span className="datenschutzInto"> | {t("dataPrivacy")} |</span>
+          </Link>
+          <Link to="/agb" className="footerIntroText">
+            <span> {t("termsAndConditions")} </span>
+          </Link>
+        </span>{" "}
+      </div>
+    ) : null;
+
+  return (
+    <div className={classes.wrapper}>
       <div className="wrapperMenu">
-        {/* <div className={classes.nav}>
-          <h1 className="logoIntro">
-            Gib deinen <br />
-            Senf dazu!
-          </h1>
-        </div> */}
+        {navigator.language !== "de-DE" && (
+          <p className="explanation">German expression saying – Contribute!</p>
+        )}
 
         <LazyImage
           src={FirstImage}
@@ -122,82 +147,27 @@ export class intro extends Component {
           )}
         />
         <Link to="/start">
-          <div className={classes.PlattformButton2}>Weiter</div>
+          <button className="buttonWide buttonIntroToStart">
+            {" "}
+            {t("next")}
+          </button>
         </Link>
 
         <span className="footerIntro">
           <Link to="/impressum" className="footerIntroText">
-            <span className="impressumIntro"> Impressum </span>
+            <span className="impressumIntro"> {t("imprint")} </span>
           </Link>
           <Link to="/datenschutz" className="footerIntroText">
-            <span className="datenschutzInto"> | Datenschutz |</span>
+            <span className="datenschutzInto"> | {t("dataPrivacy")} |</span>
           </Link>
           <Link to="/agb" className="footerIntroText">
-            <span> AGB </span>
+            <span> {t("termsAndConditions")} </span>
           </Link>
         </span>
       </div>
-    ) : (
-      <div className="white">
-        <div className="spinnerDiv">
-          {/* <CircularProgress size={50} thickness={2} /> */}
-          <img src={lamploader} className="lamploader" alt="LikeIcon" />
-        </div>
-      </div>
-    );
+      {cookiebanner}
+    </div>
+  );
+};
 
-    const cookiebanner =
-      !loading &&
-      cookies.get("Cookie_settings") !== "all" &&
-      cookies.get("Cookie_settings") !== "minimum" ? (
-        <div>
-          <div className="cookiesText">
-            {" "}
-            <span className="cookiesHeader">Ohne Cookies geht's nicht.</span>
-            <br />
-            Für die Bereitstellung einiger Funktionen und die Verbesserung
-            dieses Services brauchen wir Cookies. Falls du wirklich nur die
-            technisch notwendigsten Cookies akzeptieren willst, klicke{" "}
-            <span className="Terms" onClick={() => this.handleMinimumCookies()}>
-              hier
-            </span>
-            &nbsp;oder konfiguriere deine{" "}
-            <span
-              className="Terms"
-              onClick={() => this.handleOpenCookiePreferences()}
-            >
-              Cookie-Einstellungen
-            </span>
-            .
-          </div>
-          <div className="AcceptBanner" onClick={() => this.handleCookies()}>
-            Akzeptieren
-          </div>
-          <span className="footerIntro">
-            <Link to="/impressum" className="footerIntroText">
-              <span className="impressumIntro"> Impressum </span>
-            </Link>
-            <Link to="/datenschutz" className="footerIntroText">
-              <span className="datenschutzInto"> | Datenschutz |</span>
-            </Link>
-            <Link to="/agb" className="footerIntroText">
-              <span> AGB </span>
-            </Link>
-          </span>{" "}
-        </div>
-      ) : null;
-
-    return (
-      <div className={classes.wrapper}>
-        {content}
-        {cookiebanner}
-      </div>
-    );
-  }
-}
-
-const mapStateToProps = (state) => ({
-  data: state.data,
-});
-
-export default connect(mapStateToProps)(withStyles(styles)(intro));
+export default withStyles(styles)(Intro);

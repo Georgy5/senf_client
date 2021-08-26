@@ -11,8 +11,6 @@ import Dialog from "@material-ui/core/Dialog";
 
 // REDUX Stuff
 import { connect } from "react-redux";
-import { clearErrors } from "../../redux/actions/dataActions";
-import { deleteComment } from "../../redux/actions/dataActions";
 
 const styles = {
   deleteButton: {
@@ -126,7 +124,6 @@ class DeleteComment extends Component {
 }
 
 DeleteComment.propTypes = {
-  deleteComment: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
   commentId: PropTypes.string.isRequired,
 };
@@ -137,12 +134,4 @@ const mapStateToProps = (state) => ({
   user: state.user,
 });
 
-const mapActionsToProps = {
-  deleteComment,
-  clearErrors,
-};
-
-export default connect(
-  mapStateToProps,
-  mapActionsToProps
-)(withStyles(styles)(DeleteComment));
+export default connect(mapStateToProps)(withStyles(styles)(DeleteComment));

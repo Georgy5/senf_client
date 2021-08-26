@@ -10,15 +10,11 @@ import relativeTime from "dayjs/plugin/relativeTime";
 
 // Redux
 import { connect } from "react-redux";
+import { openMonitoringScream } from "../../redux/actions/monitoringScreamActions";
 
 // Icons
 import menuIcon from "../../images/icons/menu.png";
 import statusIcon from "../../images/icons/flag.png";
-
-import {
-  clearErrors,
-  openMonitoringScream,
-} from "../../redux/actions/dataActions";
 
 const styles = {
   gradient: {
@@ -212,7 +208,6 @@ const mapStateToProps = (state) => ({
 });
 const mapActionsToProps = {
   openMonitoringScream,
-  clearErrors,
 };
 
 export default connect(

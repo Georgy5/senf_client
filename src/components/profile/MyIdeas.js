@@ -224,14 +224,12 @@ export class MyIdeas extends Component {
 
     let screamLength = dataFinalChannel.length;
 
-    console.log(myScreams[0].title);
-
     let noMoreScreamsMarkup =
       !loading && screamLength > 0 ? (
         <div className="ende">
           ... <br /> Keine weiteren Ideen <br />
         </div>
-      ) : myScreams[0].title == undefined ? (
+      ) : myScreams === undefined ? (
         <div className="no-ideas-yet">
           Du hast bisher noch keine Idee geteilt. Es gibt noch so viele Ideen da
           draußen & du bist kreativ! Teile deine Ideen!

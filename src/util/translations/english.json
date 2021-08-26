@@ -1,0 +1,71 @@
+ {
+   "rotate_tablet": "Please rotate your tablet",
+   "rotate_phone": "Please rotate your smartphone",
+
+   "contact": "Contact",
+   "imprint": "Imprint",
+   "dataPrivacy": "Data privacy",
+   "termsAndConditions": "Terms",
+   "accept": "Accept",
+   "next": "Next",
+   "showIdeas": "Show ideas",
+   "withoutLocation":"Without specified location",
+   "withoutLocationShort":"No location",
+   "confirmLocation":"Confirm location",
+
+   "newest": "newest",
+   "hottest": "hottest",
+   "ideas": "Ideas",
+   "comments": "Comments",
+   "votes": "Votes",
+   "info": "Info",
+   "calendar": "Calendar",
+
+   "register": "Register",
+   "login": "Login",
+   "profile": "Profile",
+
+   "alreadyMember":"Already a member?",
+   "notYetMember":"not yet a member?",
+   "password":"Password with at least 8 characters",
+   "confirmPassword":"Confirm password",
+   "username":"Username",
+   "birthyear":"Birthyear",
+   "gender":"Gender",
+
+   "menuData_allIdeas": "All ideas",
+   "menuData_projectrooms": "Projectrooms",
+   "menuData_insights": "Insights",
+
+   "topics_care":"Care",
+   "topics_traffic":"Traffic",
+   "topics_ecoAndGreen":"Eco and green",
+   "topics_bike":"Bike",
+   "topics_inclusionAndSocial":"Inclusion / Social",
+   "topics_sportsAndLeisure":"Sports / Leisure",
+   "topics_other":"Other",
+
+   "map_filterIdeas":"Show ideas in the map area in the list",
+
+   "postScream_newIdea": "New idea",
+
+
+   "projectrooms_description": "Together with organizations and initiatives we are looking for your ideas on specific topics / places. In the respective project rooms you can view the ideas, comment on them and enter new ones!",
+   "projectrooms_request_overTitle": "For organisations/initiatives",
+   "projectrooms_request_title": "request a projectroom!",
+   "projectrooms_request_subTitle": "You want to gather ideas on a specific topic/place?",
+
+   "cookiebanner_title": "Cookies are inevitable",
+   "cookiebanner_text": "For the provision of some functions and the improvement of this service we need to have cookies. If you really only want to accept technically necessary cookies, click <2> here</2> or configure your <5>cookie settings</5> .",
+
+   "infopage_block1_title": "You got ideas for your\nneighborhood in cologne?",
+   "infopage_block1_subtitle": "Here you can share your ideas and see those of others; engage in dialogue and vote for ideas you like!",
+   "infopage_block2_title": "Your voices can\nbecome loud!",
+   "infopage_block2_subtitle": "We want to provide both the city representatives and you with citizen know-how. Let the city of Cologne hear your ideas!",
+   "infopage_block3_title": "You are interested in\nsupporting the project?",
+   "infopage_block3_subtitle": "We have already been able to form fantastic collaborations. If our way of thinking appeals to you too, let's get in touch!",
+   "infopage_illustrator": "Illustrator: Gizem Güvendag"
+
+
+
+ }

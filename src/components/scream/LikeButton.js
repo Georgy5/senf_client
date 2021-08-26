@@ -1,59 +1,50 @@
 /** @format */
 
-import React, { Component } from "react";
-import MyButton from "../../util/MyButton";
-import PropTypes from "prop-types";
-import HandBorder from "../../images/icons/handsnoclap.png";
-import HandFull from "../../images/icons/handsFull.png";
+import React from "react";
 
+//Redux
+import { useSelector, useDispatch } from "react-redux";
+import { likeScream, unlikeScream } from "../../redux/actions/likeActions";
+import PropTypes from "prop-types";
+
+//Components
+import MyButton from "../../util/MyButton";
 import WishNote from "../modals/WishNote";
 import SignNote from "../profile/SignNote";
 
-// Icons
+//Images
+import HandBorder from "../../images/icons/handsnoclap.png";
+import HandFull from "../../images/icons/handsFull.png";
 
-// REDUX STUFF
-import { connect } from "react-redux";
-import { likeScream, unlikeScream } from "../../redux/actions/dataActions";
+const LikeButton = ({ screamId }) => {
+  const dispatch = useDispatch();
 
-export class LikeButton extends Component {
-  likedScream = () => {
-    if (
-      this.props.user.likes &&
-      this.props.user.likes.find(
-        (like) => like.screamId === this.props.screamId
-      )
-    )
+  const { user } = useSelector((state) => state);
+
+  const likedScream = () => {
+    if (user.likes && user.likes.find((like) => like.screamId === screamId))
       return true;
     else return false;
   };
-  likeScream = () => {
-    this.props.likeScream(this.props.screamId);
-  };
-  unlikeScream = () => {
-    this.props.unlikeScream(this.props.screamId);
-  };
-  render() {
-    const { authenticated } = this.props.user;
-    const likeButton = !authenticated ? (
-      <MyButton>
-        <SignNote />
 
-        <img src={HandBorder} width="100%" alt="LikeIcon" />
-      </MyButton>
-    ) : this.likedScream() ? (
-      <MyButton onClick={this.unlikeScream}>
-        <img src={HandFull} width="100%" alt="LikeIcon" />
-        <WishNote />
-      </MyButton>
-    ) : (
-      <MyButton onClick={this.likeScream}>
-        <img src={HandBorder} width="100%" alt="LikeIcon" />
-        <WishNote />
-      </MyButton>
-    );
-    return likeButton;
-  }
-}
+  const likeButton = !user.authenticated ? (
+    <MyButton>
+      <SignNote />
+      <img src={HandBorder} width="100%" alt="LikeIcon" />
+    </MyButton>
+  ) : likedScream() ? (
+    <MyButton onClick={() => dispatch(unlikeScream(screamId, user))}>
+      <img src={HandFull} width="100%" alt="LikeIcon" />
+      <WishNote />
+    </MyButton>
+  ) : (
+    <MyButton onClick={() => dispatch(likeScream(screamId, user))}>
+      <img src={HandBorder} width="100%" alt="LikeIcon" />
+      <WishNote />
+    </MyButton>
+  );
+  return likeButton;
+};
 
 LikeButton.propTypes = {
   user: PropTypes.object.isRequired,
@@ -62,13 +53,4 @@ LikeButton.propTypes = {
   unlikeScream: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  user: state.user,
-});
-
-const mapActionsToProps = {
-  likeScream,
-  unlikeScream,
-};
-
-export default connect(mapStateToProps, mapActionsToProps)(LikeButton);
+export default LikeButton;

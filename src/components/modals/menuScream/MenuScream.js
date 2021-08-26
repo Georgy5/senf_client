@@ -11,7 +11,7 @@ import Dialog from "@material-ui/core/Dialog";
 
 //REDUX STUFF
 import { connect } from "react-redux";
-import { deleteScream } from "../../../redux/actions/dataActions";
+import { deleteScream } from "../../../redux/actions/screamActions";
 import EditScream from "./EditScream";
 
 const styles = {

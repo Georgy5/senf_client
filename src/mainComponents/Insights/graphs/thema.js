@@ -11,9 +11,7 @@ import createPlotlyComponent from "react-plotlyjs";
 import Plotly from "plotly.js/dist/plotly-cartesian";
 const PlotlyComponent = createPlotlyComponent(Plotly);
 
-const Thema = () => {
-  const { screams } = useSelector((state) => state.data);
-
+const Thema = ({ screams }) => {
   function sum(input) {
     if (toString.call(input) !== "[object Array]") return false;
 

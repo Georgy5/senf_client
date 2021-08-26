@@ -7,7 +7,10 @@ import { isMobileOnly } from "react-device-detect";
 
 // Redux stuff
 import { connect } from "react-redux";
-import { clearErrors, getMyScreams } from "../../redux/actions/dataActions";
+import { clearErrors } from "../../redux/actions/errorsActions";
+
+import firebase from "firebase/app";
+import "firebase/firestore";
 
 //Components
 import { MyIdeas } from "./MyIdeas";
@@ -242,6 +245,7 @@ class Account extends Component {
   }
   state = {
     open: false,
+    myScreams: [],
     clicked: false,
     oldPath: "",
     newPath: "",
@@ -295,7 +299,7 @@ class Account extends Component {
 
     const userHandle = this.props.user.credentials.handle;
 
-    this.props.getMyScreams(userHandle);
+    this.fetchMyScreams(userHandle);
 
     setTimeout(() => {
       this.setState({
@@ -307,6 +311,37 @@ class Account extends Component {
         dialogStyle: { position: "initial" },
       });
     }, 2000);
+  };
+
+  fetchMyScreams = async (userHandle) => {
+    const db = firebase.firestore();
+    const ref = await db
+      .collection("screams")
+      .where("userHandle", "==", userHandle)
+      .orderBy("createdAt", "desc")
+      .get();
+
+    const screams = [];
+    ref.docs.forEach((doc) => {
+      const docData = {
+        screamId: doc.id,
+        lat: doc.data().lat,
+        long: doc.data().long,
+        title: doc.data().title,
+        body: doc.data().body.substr(0, 170),
+        createdAt: doc.data().createdAt,
+        commentCount: doc.data().commentCount,
+        likeCount: doc.data().likeCount,
+        status: doc.data().status,
+        Thema: doc.data().Thema,
+        Stadtteil: doc.data().Stadtteil,
+        project: doc.data().project,
+        projectId: doc.data().project,
+      };
+
+      screams.push(docData);
+      this.setState({ myScreams: screams });
+    });
   };
 
   handleClose = () => {
@@ -493,7 +528,7 @@ class Account extends Component {
       !loadingMyScreams && this.state.open ? (
         <MyIdeas
           loading={loadingMyScreams}
-          myScreams={this.props.data.myScreams}
+          myScreams={this.state.myScreams}
           classes={classes}
           openInfoPageDesktop={this.state.openInfoPageDesktop}
           latitude1={this.state.latitude1}
@@ -719,7 +754,6 @@ class Account extends Component {
 
 Account.propTypes = {
   clearErrors: PropTypes.func.isRequired,
-  getMyScreams: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -730,7 +764,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapActionsToProps = {
-  getMyScreams,
   clearErrors,
 };
 
