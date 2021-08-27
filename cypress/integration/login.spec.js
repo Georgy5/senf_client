@@ -12,15 +12,17 @@ describe("The Login Page", () => {
   it("logs User in successfully", () => {
     cy.get(".FilterComponent")
       .find("[data-cy=open-signnote]")
-      .click({ force: true });
-    cy.get("[data-cy=login]").click();
+      .click({ force: true })
+    // Wait for 5 econds because the next element might still be hidden
+    cy.wait(5000)
+    cy.get("[data-cy=login]").click()
     cy.get("[data-cy=login-email]")
       .click()
       .type(email)
     cy.get("[data-cy=login-password]")
       .click()
       .type(password)
-    cy.get("[data-cy=login-user]").click();
+    cy.get("[data-cy=login-user]").click()
     cy.get(".FilterComponent")
       .find("[data-cy=profile-button]")
       .click({ force: true });
