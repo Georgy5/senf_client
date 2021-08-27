@@ -115,7 +115,7 @@ const styles = {
   },
 };
 
-const Start = ({ classes }) => {
+const IntroductionInformation = ({ classes }) => {
   const history = useHistory();
   const { t } = useTranslation();
 
@@ -233,4 +233,4 @@ const Start = ({ classes }) => {
   );
 };
 
-export default withStyles(styles)(Start);
+export default withStyles(styles)(IntroductionInformation);

@@ -59,7 +59,7 @@ const styles = {
   },
 };
 
-const Intro = ({ classes }) => {
+const Welcome = ({ classes }) => {
   const { t } = useTranslation();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -170,4 +170,4 @@ const Intro = ({ classes }) => {
   );
 };
 
-export default withStyles(styles)(Intro);
+export default withStyles(styles)(Welcome);

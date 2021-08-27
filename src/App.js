@@ -23,10 +23,10 @@ import { logoutUser, getUserData } from "./redux/actions/userActions";
 
 //Pages
 import home from "./pages/home";
-import Start from "./components/infocomponents/Start";
+import IntroductionInformation from "./components/infocomponents/IntroductionInformation";
 
 import info from "./components/infocomponents/info";
-import Intro from "./components/infocomponents/Intro";
+import Welcome from "./components/infocomponents/Welcome";
 import verify from "./components/profile/verify";
 
 import impressum from "./components/infocomponents/legal/impressum";
@@ -184,13 +184,13 @@ const App = () => {
           <div className="container">
             <Switch>
               <Route exact path="/" component={home} />
-              <Route exact path="/start" component={Start} />
+              <Route exact path="/start" component={IntroductionInformation} />
 
               <Route exact path="/filter" component={filter} />
 
               <Route exact path="/info" component={info} />
 
-              <Route exact path="/intro" component={Intro} />
+              <Route exact path="/intro" component={Welcome} />
 
               <Route exact path="/datenschutz" component={datenschutz} />
 
