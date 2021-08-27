@@ -73,7 +73,7 @@ export const openProject = (project) => async (dispatch) => {
     project.screams = [];
 
     screamsRef.docs.forEach((doc) =>
-      project.screams.push({ ...doc.data(), id: doc.id })
+      project.screams.push({ ...doc.data(), screamId: doc.id })
     );
 
     const newPath = `/${project.id}`;
